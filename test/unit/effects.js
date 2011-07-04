@@ -445,10 +445,11 @@ test("animate non-element", function(){
 	stop();
 
 	var obj = { test: 0 };
-
+    console.log('animate non-element')
 	jQuery(obj).animate({test: 200}, 200, function(){
 		equals( obj.test, 200, "The custom property should be modified." );
 		start();
+		console.log('done')
 	});
 });
 

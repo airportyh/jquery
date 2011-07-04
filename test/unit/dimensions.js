@@ -38,14 +38,17 @@ function testWidth( val ) {
 }
 
 test("width()", function() {
+    console.log('width()')
 	testWidth( pass );
 });
 
 test("width() with function", function() {
+    console.log('width() with function')
 	testWidth( fn );
 });
 
 test("width() with function args", function() {
+    console.log('width() with function args')
 	expect( 2 );
 
 	var $div = jQuery("#nothiddendiv");
@@ -237,6 +240,7 @@ test("child of a hidden elem has accurate inner/outer/Width()/Height()  see #944
 });
 
 test("outerHeight()", function() {
+    console.log('outerHeight()')
 	expect(11);
 
 	equal( jQuery( window ).outerHeight(), null, "Test on window without margin option" );

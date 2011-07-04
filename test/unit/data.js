@@ -1,6 +1,7 @@
 module("data", { teardown: moduleTeardown });
 
 test("expando", function(){
+    console.log('expando')
 	expect(1);
 
 	equals("expando" in jQuery, true, "jQuery is exposing the expando");
@@ -8,7 +9,6 @@ test("expando", function(){
 
 function dataTests (elem) {
 	// expect(32)
-
 	function getCacheLength() {
 		var cacheLength = 0;
 		for (var i in jQuery.cache) {

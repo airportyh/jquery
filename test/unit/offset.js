@@ -1,6 +1,7 @@
 module("offset", { teardown: moduleTeardown });
 
 test("disconnected node", function() {
+    console.log('disconnected node')
 	expect(2);
 
 	var result = jQuery( document.createElement("div") ).offset();
@@ -468,6 +469,7 @@ test("fractions (see #7730 and #7885)", function() {
 });
 
 function testoffset(name, fn) {
+    return
 
 	test(name, function() {
 		// pause execution for now

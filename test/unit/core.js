@@ -1,5 +1,4 @@
 module("core", { teardown: moduleTeardown });
-
 test("Basic requirements", function() {
 	expect(7);
 	ok( Array.prototype.push, "Array.push()" );
@@ -1034,7 +1033,7 @@ test("jQuery.sub() - Static Methods", function(){
 });
 
 test("jQuery.sub() - .fn Methods", function(){
-	expect(378);
+    expect(378);
 
 	var Subclass = jQuery.sub(),
 			SubclassSubclass = Subclass.sub(),
@@ -1106,8 +1105,7 @@ test("jQuery.sub() - .fn Methods", function(){
 });
 
 test("jQuery.camelCase()", function() {
-
-	var tests = {
+    var tests = {
 		"foo-bar": "fooBar", 
 		"foo-bar-baz": "fooBarBaz"
 	};
