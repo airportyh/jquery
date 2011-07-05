@@ -5,7 +5,7 @@ module("ajax", { teardown: moduleTeardown });
 // tests and they'll pass
 //if ( !jQuery.browser.safari ) {
 
-if ( !isLocal ) {
+if ( false ){//!isLocal ) {
 
 test("jQuery.ajax() - success callbacks", function() {
 	expect( 8 );
