@@ -1,19 +1,40 @@
 var Tutti = require('tutti').Tutti
 
+function red(s){ return ["\033[31m", s, "\033[0m"].join('') }
+function green(s){ return ["\033[32m", s, "\033[0m"].join('') }
+function cyan(s){ return ["\033[36m", s, "\033[0m"].join('') }
+function yellow(s){ return ["\033[33m", s, "\033[0m"].join('') }
+function blue(s){ return ["\033[34m", s, "\033[0m"].join('') }
+
 function indent(str){
-    return String(str).split('\n').map(function(line){
+    return str.split('\n').map(function(line){
         return '  ' + line
     }).join('\n')
 }
 
-function display(msg){
-    if (msg.console){
-        console.log(msg.browser)
-        console.log(indent(msg.console))
+function printTestResults(msg){
+    console.log(yellow(msg.browser))
+    var status = [
+        msg.total,
+        'tests ran,',
+        msg.failed,
+        'failed.'
+        ].join(' ')
+    if (msg.failed === 0)
+        console.log(indent(green(status)))
+    else{
+        console.log(indent(red(status)))
+        if (msg.items)
+            msg.items.forEach(function(item){
+                console.log(indent(item.name))
+                console.log(indent(item.message))
+                if (item.stackTrace)
+                    console.log(indent(item.stackTrace))
+            })
     }
 }
 
-var scripts = [
+var files = [
 "test/qunit/qunit/qunit.css",
 "test/data/iframe.html",
 "test/data/testsuite.css",
@@ -61,6 +82,7 @@ var scripts = [
 "test/data/versioncheck.js",
 
 "test/qunit/qunit/qunit.js",
+"test/qunitTuttiAdapter.js",
 
 "test/data/testrunner.js",
 
@@ -82,7 +104,48 @@ var scripts = [
 "test/index.html"
 ]
 
+var testResults = {},
+    testProgress = {},
+    testPassed = {},
+    browsers = null
 var tt = Tutti('http://localhost:8080/')
-tt.on('message', display)
-    .upload(scripts)
+    .on('message', function(msg){
+        if (msg.browsers){
+            console.log()
+            console.log('Progress(# tests run)')
+            console.log('=====================')
+            browsers = msg.browsers.map(function(b){
+                return b.browser
+            })
+            browsers.forEach(function(b){
+                testPassed[b] = 0
+                testProgress[b] = 0
+            })
+            console.log(cyan(browsers.join('\t')))
+        }else if (msg.test === 'caseResult'){
+            if (msg.failed === 0)
+                testPassed[msg.browser]++
+            testProgress[msg.browser]++
+            process.stdout.write('\r' + browsers.map(function(b){
+                return [green(testPassed[b]), '/', testProgress[b]].join('')
+            }).join('\t\t'))
+        }else if (msg.test === 'done'){
+            testResults[msg.browser] = msg
+        }
+    })
+    .upload(files)
     .open('test/index.html')
+    .wait(function(msg){
+        return msg.test === 'done'
+    }, 100000)
+    .run(function(){
+        console.log('\n')
+        console.log('Final Test Results')
+        console.log('==================')
+        for (var browser in testResults){
+            printTestResults(testResults[browser])
+        }
+        console.log()
+    })
+    .exit()
+    
