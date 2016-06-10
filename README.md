@@ -1,6 +1,8 @@
 [jQuery](http://jquery.com/) - New Wave JavaScript
 ==================================================
 
+TOBY WAS HERE!!!
+
 What you need to build your own jQuery
 --------------------------------------
 
@@ -99,7 +101,7 @@ The makefile has some targets to simplify submodule handling:
 
 #### `make update_submodules` ####
 
-checks out the commit pointed to by jquery, but merges your local changes, if any. This target is executed 
+checks out the commit pointed to by jquery, but merges your local changes, if any. This target is executed
 when you are doing a normal `make`.
 
 #### `make pull_submodules` ####
